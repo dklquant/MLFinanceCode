@@ -22,12 +22,11 @@ public class SAOptimizer extends NNOptimzeBase {
         for (double crates : m_cr) {
             double correct = 0, incorrect = 0;
             optimizations = new SimulatedAnnealing(1E12, crates, neuralNetProblems);
-            train(optimizations, networks, trainingIterations); //trainer.train();
+            train(optimizations, networks, trainingIterations);
 
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
 
-            // Calculate Training Set Statistics //
             double notActual, real;
             for (int j = 0; j < data.length; j++) {
                 networks.setInputValues(data[j].getData());
