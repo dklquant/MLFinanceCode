@@ -13,27 +13,20 @@ public class OptimizeUtil {
 
         double[][][] attributes = new double[950][][];
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("")));
+        BufferedReader br = new BufferedReader(new FileReader(new File("")));
 
-            for(int i = 0; i < attributes.length; i++) {
-                Scanner scan = new Scanner(br.readLine());
-                scan.useDelimiter(",");
+        for(int i = 0; i < attributes.length; i++) {
+            Scanner scan = new Scanner(br.readLine());
+            scan.useDelimiter(",");
 
-                attributes[i] = new double[2][];
-                attributes[i][0] = new double[24];
-                attributes[i][1] = new double[1];
+            attributes[i] = new double[2][];
+            attributes[i][0] = new double[24];
+            attributes[i][1] = new double[1];
 
-                for(int j = 0; j < 24; j++)
-                    attributes[i][0][j] = Double.parseDouble(scan.next());
+            for(int j = 0; j < 24; j++)
+                attributes[i][0][j] = Double.parseDouble(scan.next());
 
-                attributes[i][1][0] = Double.parseDouble(scan.next());
-                //System.out.println(attributes[i][1][0]);
-
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
+            attributes[i][1][0] = Double.parseDouble(scan.next());
         }
 
         Instance[] instances = new Instance[attributes.length];
