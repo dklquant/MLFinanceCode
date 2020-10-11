@@ -18,19 +18,15 @@ public class RHCOptimizer extends NNOptimzeBase {
 
     public  void runAlgo(Instance[] data, int trainingIterations) {
         finals = "";
-            double start = System.nanoTime(), end, trainingTime, testingTime, correct = 0, incorrect = 0;
+            double correct = 0, incorrect = 0;
             optimizations = new RandomizedHillClimbing(neuralNetProblems);
             train(optimizations, networks, trainingIterations); //trainer.train();
-            end = System.nanoTime();
-            trainingTime = end - start;
-            trainingTime /= Math.pow(10, 9);
 
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
 
             // Calculate Training Set Statistics //
             double predicted, actual;
-            start = System.nanoTime();
             for (int j = 0; j < data.length; j++) {
                 networks.setInputValues(data[j].getData());
                 networks.run();
@@ -44,13 +40,8 @@ public class RHCOptimizer extends NNOptimzeBase {
                 }
             }
 
-            end = System.nanoTime();
-            testingTime = end - start;
-            testingTime /= Math.pow(10, 9);
-
-            finals += "\nTrain Results for RHC:" + "," + "," + ": \nCorrectly classified " + correct + " instances." +
-                    "\nIncorrectly classified " + incorrect  + "\nTraining time: " + myFormatting.format(trainingTime)
-                    + " seconds\nTesting time: " + myFormatting.format(testingTime) + " seconds\n";
+            finals += "\nRHC:" + "," + "," + ": \nCorrect " + correct +
+                    "\nIncorrect " + incorrect;
             runTestAlgo(testings, 0);
     }
 
@@ -70,8 +61,7 @@ public class RHCOptimizer extends NNOptimzeBase {
 
         }
 
-        finals += "\nTest Results for RHC: " + "," + ","  + ": \nCorrectly classified " + correct + " instances." +
-                "\nIncorrectly classified " + incorrect;
+        finals += "\nRHC: "  + ": \nCorrect " + correct + "\nIncorrect " + incorrect;
 
         System.out.println(finals);
     }

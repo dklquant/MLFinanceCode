@@ -20,48 +20,44 @@ public class SAOptimizer extends NNOptimzeBase {
     public void runAlgo(Instance[] data, int trainingIterations) {
         finals = "";
         for (double crates : m_cr) {
-            double start = System.nanoTime(), end, trainingTime, testingTime, correct = 0, incorrect = 0;
+            double correct = 0, incorrect = 0;
             optimizations = new SimulatedAnnealing(1E12, crates, neuralNetProblems);
             train(optimizations, networks, trainingIterations); //trainer.train();
-            end = System.nanoTime();
-            trainingTime = end - start;
-            trainingTime /= Math.pow(10, 9);
 
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
 
             // Calculate Training Set Statistics //
-            double predicted, actual;
-            start = System.nanoTime();
+            double notActual, real;
             for (int j = 0; j < data.length; j++) {
                 networks.setInputValues(data[j].getData());
                 networks.run();
 
-                actual = Double.parseDouble(data[j].getLabel().toString());
-                predicted = Double.parseDouble(networks.getOutputValues().toString());
-                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ : incorrect++;
+                real = Double.parseDouble(data[j].getLabel().toString());
+                notActual = Double.parseDouble(networks.getOutputValues().toString());
+                if (Math.abs(notActual - real) < 0.5) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
             }
 
-            end = System.nanoTime();
-            testingTime = end - start;
-            testingTime /= Math.pow(10, 9);
-
-            finals += "\nTrain Results for SA:" + "," + crates + "," + ": \nCorrectly classified " + correct + " instances." +
-                    "\nIncorrectly classified " + incorrect  + "\nTraining time: " + myFormatting.format(trainingTime)
-                    + " seconds\nTesting time: " + myFormatting.format(testingTime) + " seconds\n";
+            finals += "\nSA:" + "," + crates + "," + "\nCorrect " + correct +
+                    "\nIncorrect " + incorrect;
             runTestAlgo(testings, crates);
         }
     }
 
     public void runTestAlgo(Instance[] data, double crates) {
-        double correct = 0, incorrect = 0;
+        double correct = 0;
+        double incorrect = 0;
         for (int j = 0; j < data.length; j++) {
             networks.setInputValues(data[j].getData());
             networks.run();
 
-            double actual = Double.parseDouble(data[j].getLabel().toString());
-            double predicted = Double.parseDouble(networks.getOutputValues().toString());
-            if (Math.abs(predicted - actual) < 0.5) {
+            double real = Double.parseDouble(data[j].getLabel().toString());
+            double notActual = Double.parseDouble(networks.getOutputValues().toString());
+            if (Math.abs(notActual - real) < 0.5) {
                 correct++;
             } else {
                 incorrect++;
@@ -69,9 +65,8 @@ public class SAOptimizer extends NNOptimzeBase {
 
         }
 
-        finals += "\nTest Results for GA: " + "," + crates + ","  + ": \nCorrectly classified " + correct + " instances." +
-                "\nIncorrectly classified " + incorrect  + "\nTraining time: "
-                + " seconds\nTesting time: "  + " seconds\n";
+        finals += "\nSA: " + "," + crates + ","  + ": \nCorrect " + correct +
+                "\nIncorrect " + incorrect;
         System.out.println(finals);
     }
 

@@ -27,41 +27,36 @@ public class GANeuralNetwork extends NNOptimzeBase {
     public  void runAlgo(Instance[] data, int trainingIterations) {
         finals = "";
         for (int q = 0; q < m_population.length; q++) {
-            double start = System.nanoTime(), end, trainingTime, testingTime, correct = 0, incorrect = 0;
+            double correct = 0, incorrect = 0;
             optimizations = new StandardGeneticAlgorithm(m_population[q], m_mate[q], m_mutes[q], neuralNetProblems);
             train(optimizations, networks, trainingIterations); //trainer.train();
-            end = System.nanoTime();
-            trainingTime = end - start;
-            trainingTime /= Math.pow(10, 9);
 
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
 
             // Calculate Training Set Statistics //
             double predicted, actual;
-            start = System.nanoTime();
             for (int j = 0; j < data.length; j++) {
                 networks.setInputValues(data[j].getData());
                 networks.run();
 
                 actual = Double.parseDouble(data[j].getLabel().toString());
                 predicted = Double.parseDouble(networks.getOutputValues().toString());
-                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ : incorrect++;
+                if (Math.abs(predicted - actual) < 0.5) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
             }
 
-            end = System.nanoTime();
-            testingTime = end - start;
-            testingTime /= Math.pow(10, 9);
-
-            finals += "\nTrain Results for GA:" + "," + m_population[q] + "," + m_mate[q] + "," + m_mutes[q] + "," + ": \nCorrectly classified " + correct + " instances." +
-                    "\nIncorrectly classified " + incorrect  + "\nTraining time: " + myFormatting.format(trainingTime)
-                    + " seconds\nTesting time: " + myFormatting.format(testingTime) + " seconds\n";
+            finals += "\nGA Results:" + "," + m_population[q] + "," + m_mate[q] + "," + m_mutes[q] + "," + ": \nCorrect " + correct  +
+                    "\nIncorrect " + incorrect;
             runTestAlgo(testings, q);
         }
     }
 
     public void runTestAlgo(Instance[] data, int q) {
-        double  correct = 0, incorrect = 0;
+        double correct = 0, incorrect = 0;
         for (int j = 0; j < data.length; j++) {
             networks.setInputValues(data[j].getData());
             networks.run();
@@ -76,8 +71,8 @@ public class GANeuralNetwork extends NNOptimzeBase {
 
         }
 
-        finals += "\nTest Results for GA: " + "," + m_population[q] + "," + m_mate[q] + "," + m_mutes[q] + ","  + ": \nCorrectly classified " + correct + " instances." +
-                "\nIncorrectly classified " + incorrect;
+        finals += "\nGA Results: " + "," + m_population[q] + "," + m_mate[q] + "," + m_mutes[q] + ","  + ": \nCorrect " + correct +
+                "\nIncorrect " + incorrect;
         System.out.println(finals);
     }
 }
