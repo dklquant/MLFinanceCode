@@ -14,7 +14,7 @@ public class OptimizeUtil {
         double[][][] attributes = new double[950][][];
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("/Users/jiajilu/IdeaProjects/assignment2/src/com/randomoptimize/default.csv")));
+            BufferedReader br = new BufferedReader(new FileReader(new File("")));
 
             for(int i = 0; i < attributes.length; i++) {
                 Scanner scan = new Scanner(br.readLine());
