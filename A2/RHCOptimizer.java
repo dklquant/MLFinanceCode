@@ -20,7 +20,7 @@ public class RHCOptimizer extends NNOptimzeBase {
         finals = "";
             double correct = 0, incorrect = 0;
             optimizations = new RandomizedHillClimbing(neuralNetProblems);
-            train(optimizations, networks, trainingIterations); //trainer.train();
+            train(optimizations, networks, trainingIterations);
 
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
