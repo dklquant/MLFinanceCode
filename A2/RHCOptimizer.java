@@ -25,7 +25,6 @@ public class RHCOptimizer extends NNOptimzeBase {
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
 
-            // Calculate Training Set Statistics //
             double predicted, actual;
             for (int j = 0; j < data.length; j++) {
                 networks.setInputValues(data[j].getData());
