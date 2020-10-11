@@ -28,13 +28,14 @@ public class GANeuralNetwork extends NNOptimzeBase {
         finals = "";
         for (int q = 0; q < m_population.length; q++) {
             double correct = 0, incorrect = 0;
+            
             optimizations = new StandardGeneticAlgorithm(m_population[q], m_mate[q], m_mutes[q], neuralNetProblems);
-            train(optimizations, networks, trainingIterations); //trainer.train();
+            
+            train(optimizations, networks, trainingIterations);
 
             Instance optimalInstance = optimizations.getOptimal();
             networks.setWeights(optimalInstance.getData());
 
-            // Calculate Training Set Statistics //
             double predicted, actual;
             for (int j = 0; j < data.length; j++) {
                 networks.setInputValues(data[j].getData());
